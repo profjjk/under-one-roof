@@ -3,13 +3,13 @@ const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
 const db = require("./models");
-// const cors = require("cors");
+const cors = require("cors");
 
-// var corsOptions = {
-//   origin: "http://localhost:3000"
-// };
+var corsOptions = {
+  origin: `https://agile-shore-47950.herokuapp.com/`
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

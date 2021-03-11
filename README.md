@@ -200,6 +200,118 @@ exports.signin = (req, res) => {
 ```
 
 
+### Expense Model & Budget/Expenses Pages
+
+To run a shared budget and payments analysis within our application, we needed to add a model instance in our database that could contain details about an expense. This model also includes a boolean paid descriptor, and if the instance of the model has been paid, there needs to be an associated paid by name.
+
+We instantiated this model as belonging to the Home model, which is our overarching login model.  With this relationship, we are able to restrict the data that is presented to an individiual home to only their own data.
+
+```javascript
+const currentUser = AuthService.getCurrentUser();
+
+// Data Retrieval Functions
+const getHomeId = () => {
+    const HomeId = currentUser.id;
+    return HomeId;
+}
+
+let HomeId = getHomeId();
+
+const getExpenses = (data) => {
+    let id = data;
+    API.getExpenses(id)
+    .then(results => {
+        sortExpenses(results.data)
+        dispatch({
+            type: GET_EXPENSES,
+            expenses: results.data
+        });
+    })       
+}
+
+useEffect (async () =>  {
+  await getExpenses(HomeId);
+}, []);
+```
+
+Beyond this, we used react-vis to populate our pie and bar charts on the Budget page, which required formatting our stately variable data into the highly specific parameters for the react-vis built in components.
+
+```javascript
+const pieDataFormat = (data) => {
+  // Create totals variables
+  let rentSum = 0;
+  let utilitiesSum = 0;
+  let otherSum = 0;
+
+  for (var i = 0; i < data.expenses.length; i++) {
+      if (data.expenses[i].expenseType === "rent" || data.expenses[i].expenseType === "Rent") {
+          rentSum += parseInt(data.expenses[i].expenseAmount);
+      } else if (data.expenses[i].expenseType === "utilities" || data.expenses[i].expenseType == "Utilities") {
+          utilitiesSum += parseInt(data.expenses[i].expenseAmount);
+      } else {
+          otherSum += parseInt(data.expenses[i].expenseAmount);
+      }
+  }
+
+  const pieChart = [];
+  pieChart.push({angle: rentSum, label: rentSum});
+  pieChart.push({angle: utilitiesSum, label: utilitiesSum});
+  pieChart.push({angle: otherSum, label: otherSum});
+  return pieChart;
+};
+const pieData = pieDataFormat(state);
+
+
+<div className="col-lg-7 chart d-flex justify-content-center">
+  <RadialChart
+  data={pieData}
+  radius={125}
+  width={300}
+  height={300} />
+</div>
+```
+
+Finally to create the reactive table at the bottom of the Budget page, we utilized the react-table package to create a clean manipulable table.
+
+```javascript
+<table className="table" border="1" {...getTableProps()} style={{textAlign: "center"}}>
+  <thead className="table-header">
+      {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column =>(
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                      {column.render("Header")}
+                      <span>
+                          {column.isSorted 
+                              ? column.isSortedDesc
+                                  ? "🔽"
+                                  : "🔼"
+                              : ""}
+                      </span>
+                  </th>
+              ))}
+          </tr>
+      ))}
+  </thead>
+  <tbody {...getTableBodyProps()}>
+      {rows.map(row => {
+          prepareRow(row)
+          return (
+              <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                      return (
+                          <td {...cell.getCellProps()} >
+                              {cell.render("Cell")}
+                          </td>
+                      )
+                  })}
+              </tr>
+          )
+      })}
+  </tbody>
+</table> 
+```
+
 ## Authors
 
 - Ryan Kirkland

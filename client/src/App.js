@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { ExpenseProvider } from "./utils/GlobalState";
 import AuthService from "./services/auth.service";
@@ -29,27 +29,29 @@ function App () {
   return (
     <>
       <div className="App">
-      <Navbar />
-        <ExpenseProvider>
-          <Switch>
-            {/* Public Routes */}
-            <Route exact path={["/", "/home"]} component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            
-            {/* Logged in routes */}
-            {currentUser && (
-              <div>
-                <Route exact path="/landing" component={Landing} />
-                <Route exact path="/profile" component={Profile} />
-                <Route exact path="/budget" component={Budget} />
-                <Route exact path="/expenses" component={Expenses} />
-                <Route exact path="/chores" component={Chores} />
-                <Route exact path="/calendar" component={Calendar} />
-              </div>
-            )}
-          </Switch>
-        </ExpenseProvider>
+        <Router>
+        <Navbar />
+          <ExpenseProvider>
+            <Switch>
+              {/* Public Routes */}
+              <Route exact path={["/", "/home"]} component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              
+              {/* Logged in routes */}
+              {currentUser && (
+                <div>
+                  <Route exact path="/landing" component={Landing} />
+                  <Route exact path="/profile" component={Profile} />
+                  <Route exact path="/budget" component={Budget} />
+                  <Route exact path="/expenses" component={Expenses} />
+                  <Route exact path="/chores" component={Chores} />
+                  <Route exact path="/calendar" component={Calendar} />
+                </div>
+              )}
+            </Switch>
+          </ExpenseProvider>
+        </Router>
       </div>
     </>
   );         

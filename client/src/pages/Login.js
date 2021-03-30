@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useHistory } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -21,6 +22,7 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const history = useHistory()
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -43,8 +45,10 @@ const Login = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(username, password).then(
         () => {
-          props.history.push("/profile");
-          window.location.reload();
+          history.push('/profile');
+
+          // props.history.push("/profile");
+          // window.location.reload(); // maybe problem
         },
         (error) => {
           const resMessage =

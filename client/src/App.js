@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { ExpenseProvider } from "./utils/GlobalState";
+import { UserProvider, useUserContext } from "./utils/LoginState";
 import AuthService from "./services/auth.service";
 import Budget from "./pages/Budget";
 import Chores from "./pages/Chores";
@@ -13,6 +14,8 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Landing from "./pages/Landing";
 import Navbar from "./components/Nav";
+import API from "./utils/API";
+import { GET_USER } from "./utils/actions";
 
 
 function App () {
@@ -30,27 +33,29 @@ function App () {
     <>
       <div className="App">
         <Router>
-        <Navbar />
-          <ExpenseProvider>
+          <Navbar />
+          <UserProvider>
             <Switch>
               {/* Public Routes */}
               <Route exact path={["/", "/home"]} component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
-              
+
               {/* Logged in routes */}
-              {currentUser && (
+              {LoginStatus[1] && (
                 <div>
+                  <ExpenseProvider>
                   <Route exact path="/landing" component={Landing} />
                   <Route exact path="/profile" component={Profile} />
                   <Route exact path="/budget" component={Budget} />
                   <Route exact path="/expenses" component={Expenses} />
                   <Route exact path="/chores" component={Chores} />
                   <Route exact path="/calendar" component={Calendar} />
+                  </ExpenseProvider>
                 </div>
               )}
             </Switch>
-          </ExpenseProvider>
+          </UserProvider>
         </Router>
       </div>
     </>

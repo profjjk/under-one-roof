@@ -20,8 +20,8 @@ export default {
   },
 
   // Gets all chores
-  getChores: function() {
-    return axios.get("/api/chores");
+  getChores: function(id) {
+    return axios.get("/api/chores/" + id);
   },
   // Deletes the chore with the given id
   removeChore: function(id) {
@@ -56,6 +56,14 @@ export default {
   },
   deleteUser: id => {
     return axios.delete('/api/users/' + id);
+  },
+
+  // LOGIN
+  getUser: id => {
+    return axios.get('api/homes/' + id);
+  },
+  addUser: data => {
+    return axios.get('/api/homes/' + data.HomeId);
   }
 
 };

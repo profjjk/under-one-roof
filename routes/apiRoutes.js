@@ -28,11 +28,11 @@ router
 // Chores
 router
   .route("/api/chores")
-  .get(choreController.findAll)
   .post(choreController.add);
   
 router
   .route("/api/chores/:id")
+  .get(choreController.findAll)
   .delete(choreController.delete);
 
 

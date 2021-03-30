@@ -7,7 +7,7 @@ module.exports = {
         .catch(err => res.status(422).json(err));
     },
     findAll: function (req, res) {
-        db.Chore.findAll()
+        db.Chore.findAll({ where: { homeId: req.params.id }})
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
     },

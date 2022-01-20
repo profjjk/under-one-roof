@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Chore = sequelize.define("Chore", {
+    const Chore = sequelize.define("Chore", {
 
         choreName: {
             type: DataTypes.STRING,

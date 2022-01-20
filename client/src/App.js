@@ -42,8 +42,8 @@ function App () {
               <Route exact path="/register" component={Register} />
 
               {/* Logged in routes */}
-              {LoginStatus[1] && (
-                <div>
+              {/*{LoginStatus[1] && (*/}
+                <>
                   <ExpenseProvider>
                   <Route exact path="/landing" component={Landing} />
                   <Route exact path="/profile" component={Profile} />
@@ -52,8 +52,8 @@ function App () {
                   <Route exact path="/chores" component={Chores} />
                   <Route exact path="/calendar" component={Calendar} />
                   </ExpenseProvider>
-                </div>
-              )}
+                </>
+              {/*)}*/}
             </Switch>
           </UserProvider>
         </Router>

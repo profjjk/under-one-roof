@@ -2,11 +2,12 @@
   "name": "under-one-roof",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:5050",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
+    "axios": "^0.25.0",
     "dayjs": "^1.10.4",
     "moment": "^2.29.1",
     "react": "^17.0.1",

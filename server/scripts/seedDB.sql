@@ -1,4 +1,4 @@
-use household;
+use under_one_roof;
 
 INSERT INTO household.expenses (expenseName, expenseAmount, expenseDate, expenseType, createdAt, updatedAt, paid, paidBy, HomeId) 
 VALUES ("rent", 1500, "2021-02-02 19:54:05", "rent", "2021-02-02 19:54:05", "2021-02-02 19:54:05", false, "0", 1);

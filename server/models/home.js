@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Home = sequelize.define("Home", {
+    const Home = sequelize.define("Home", {
         username: {
             type: DataTypes.STRING,
             allowNull: false,

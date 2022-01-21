@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "/api/users/";
+const API_URL = "https://under-one-roof-server.herokuapp.com/api/users/";
 
 const getPublicContent = () => {
   return axios.get(API_URL + "all");

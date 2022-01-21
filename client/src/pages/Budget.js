@@ -11,11 +11,6 @@ import dayjs from "dayjs";
 
 const Budget = () => {
     // Getting data from state and page
-    const expnameRef = useRef();
-    const expamtRef = useRef();
-    const exptypeRef = useRef();
-    const paid = useRef();
-    const paidBy = useRef();
     const currentUser = AuthService.getCurrentUser();
     const [state, dispatch] = useExpenseContext();
 
@@ -53,13 +48,15 @@ const Budget = () => {
     }  
 
     // Data Add Function
-    const addExpense = () => {        
+    const submit = async e => {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
         let expenseData = {
-            expenseName: expnameRef.current.value,
-            expenseAmount: expamtRef.current.value,
-            expenseType: exptypeRef.current.value,
-            paid: paid.current.checked,
-            paidBy: paidBy.current.value,
+            expenseName: formData.name,
+            expenseAmount: formData.amount,
+            expenseType: formData.type,
+            paid: formData.paid,
+            paidBy: formData.paidBy,
             expenseDate: Date.now(),
             HomeId: HomeId
         }
@@ -73,18 +70,19 @@ const Budget = () => {
     };
 
     const pieDataFormat = (data) => {
-        // Create totals variables
         let rentSum = 0;
         let utilitiesSum = 0;
         let otherSum = 0;
 
-        for (var i = 0; i < data.expenses.length; i++) {
-            if (data.expenses[i].expenseType === "rent" || data.expenses[i].expenseType === "Rent") {
-                rentSum += parseInt(data.expenses[i].expenseAmount);
-            } else if (data.expenses[i].expenseType === "utilities" || data.expenses[i].expenseType == "Utilities") {
-                utilitiesSum += parseInt(data.expenses[i].expenseAmount);
-            } else {
-                otherSum += parseInt(data.expenses[i].expenseAmount);
+        if (data.expenses.length < 0) {
+            for (let i = 0; i < data.expenses.length; i++) {
+                if (data.expenses[i].expenseType.toLowerCase() === "rent") {
+                    rentSum += parseInt(data.expenses[i].expenseAmount);
+                } else if (data.expenses[i].expenseType.toLowerCase() === "utilities") {
+                    utilitiesSum += parseInt(data.expenses[i].expenseAmount);
+                } else {
+                    otherSum += parseInt(data.expenses[i].expenseAmount);
+                }
             }
         }
 
@@ -104,7 +102,7 @@ const Budget = () => {
         let otherOwed = 0;
         let otherPaid = 0;
 
-        for (var i=0; i < data.expenses.length; i++) {
+        for (let i=0; i < data.expenses.length; i++) {
             if (data.expenses[i].expenseType === "rent" || data.expenses[i].expenseType === "Rent") {
                 rentOwed += parseInt(data.expenses[i].expenseAmount);
                 if (data.expenses[i].paid === true) {
@@ -303,15 +301,15 @@ const Budget = () => {
                         <div className="row mt-4 d-flex justify-content-center">
                             <div className="col-xl-6 col-lg-10">
                                 <h3 className="small bold">Add New Expense:</h3>
-                                <form className="form-group" onSubmit={addExpense}>
-                                    <input className="form-control mb-2 small" required ref={expnameRef} placeholder="Name of Expense"/>
-                                    <input className="form-control mb-2 small" required ref={expamtRef} placeholder="Expense Amount" />
-                                    <input className="form-control mb-3 small" required ref={exptypeRef} placeholder="Expense Type, enter Rent, Utilities, or Other" />
+                                <form className="form-group" onSubmit={submit}>
+                                    <input className="form-control mb-2 small" required name={"name"} placeholder="Name of Expense"/>
+                                    <input className="form-control mb-2 small" required name={"amount"} placeholder="Expense Amount" />
+                                    <input className="form-control mb-3 small" required name={"type"} placeholder="Expense Type, enter Rent, Utilities, or Other" />
                                     <div className="form-check mb-3 ml-2">
-                                        <input className="form-check-input" type="checkbox" value="" ref={paid} id="paidCheckBox" style={{height: '25px', width: '25px'}} />
+                                        <input className="form-check-input" type="checkbox" value="" name={"paid"} id="paidCheckBox" style={{height: '25px', width: '25px'}} />
                                         <label className="form-check-label small ml-4" for="paidCheckBox">Paid?</label>
                                     </div>
-                                    <input className="form-control mb-2 small" ref={paidBy} placeholder="Paid by ..." />
+                                    <input className="form-control mb-2 small" name={"paidBy"} placeholder="Paid by ..." />
                                     <button className="btn btn-success small mt-3 mb-5" type="submit">Save Expense</button>
                                 </form>
                             </div>
@@ -336,6 +334,7 @@ const Budget = () => {
                                             </tr>
                                         ))}
                                     </thead>
+
                                     <tbody {...getTableBodyProps()}>
                                         {rows.map(row => {
                                             prepareRow(row)

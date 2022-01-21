@@ -5,15 +5,17 @@ export default function PaymentListItem(props) {
     nam = props.name[0];
     
     let names = 0;
+
+    let namesArr; let amountArr; let emptArr;
     if (!nam) {
-        var emptArr = [];
+        emptArr = [];
     } else {
-        var namesArr = Object.keys(nam);
-        var amountArr = Object.values(nam);
+        namesArr = Object.keys(nam);
+        amountArr = Object.values(nam);
         names = namesArr.length;
     }   
 
-    var output;
+    let output;
 
     if (names === 1){
         output = <h6>{namesArr[0]}: <span><p>${amountArr[0]}</p></span></h6>;

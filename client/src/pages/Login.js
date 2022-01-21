@@ -84,6 +84,7 @@ const Login = (props) => {
               className="form-control"
               name="username"
               value={username}
+              defaultValue={"12 Harbor Ave"}
               onChange={onChangeUsername}
               validations={[required]}
             />
@@ -96,6 +97,7 @@ const Login = (props) => {
               className="form-control"
               name="password"
               value={password}
+              defaultValue={"password"}
               onChange={onChangePassword}
               validations={[required]}
             />

@@ -3,7 +3,7 @@ import UserService from "../services/user.service";
 
 const style = {
   hero: {
-    height: '500px',
+    maxHeight: '350px',
     objectFit: 'contain'
   }
 }

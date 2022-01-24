@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import API from "../utils/API";
+import React, { useEffect } from "react";
 import { useExpenseContext } from "../utils/GlobalState";
 import { GET_EXPENSES, ADD_EXPENSE } from "../utils/actions";
-import "./style.css";
 import { RadialChart, XAxis, XYPlot, YAxis, VerticalBarSeries, LabelSeries } from "react-vis";
 import PaymentList from "../components/PaymentList";
 import AuthService from "../services/auth.service";
 import { useTable, useSortBy } from "react-table";
+import API from "../utils/API";
 import dayjs from "dayjs";
+import "./style.css";
 
 const Budget = () => {
     // Getting data from state and page
@@ -148,7 +148,7 @@ const Budget = () => {
     const totalOwedFormat = (data) => {
         let owed = 0;
         
-        for (var i =0; i< data.totalOwed.length; i++) {
+        for (let i =0; i< data.totalOwed.length; i++) {
             owed += parseInt(data.totalOwed[i].y);
         }
 
@@ -158,7 +158,7 @@ const Budget = () => {
     const totalPaidFormat = (data) => {
         let paidTot = 0;
         
-        for (var j =0; j< data.totalPaid.length; j++) {
+        for (let j =0; j< data.totalPaid.length; j++) {
             paidTot += parseInt(data.totalPaid[j].y);
         }
 
@@ -171,7 +171,7 @@ const Budget = () => {
     const getRowData = (data) => {
         let rowData = [];
         let rowObj = {};
-        for ( var i=0; i < data.expenses.length; i++) {
+        for ( let i=0; i < data.expenses.length; i++) {
             let keys = Object.keys(data.expenses[i]);
             keys.shift();
             keys.pop();

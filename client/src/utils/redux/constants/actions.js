@@ -11,7 +11,7 @@ export const ADD_EVENT = "ADD_EVENT";
 export const DELETE_EVENT = "DELETE_EVENT";
 
 export const GET_CHORES = "GET_CHORE";
-export const ADD_CHORE = "ADD_CHORE";
+export const ADD_CHORE = "SET_CHORES";
 export const DELETE_CHORE = "DELETE_CHORE";
 
 export const GET_HOMES = "GET_HOME";

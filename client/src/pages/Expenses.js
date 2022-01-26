@@ -10,14 +10,7 @@ const Expenses = () => {
     const [state, dispatch] = useExpenseContext();
     const currentUser = AuthService.getCurrentUser();
 
-
-    // Data Retrieval Functions
-    const getHomeId = () => {
-        const HomeId = currentUser.id;
-        return HomeId;
-    }
-
-    let HomeId = getHomeId();
+    let HomeId = currentUser.id;
 
     const getExpenses = (data) => {
         let id = data;
@@ -33,7 +26,7 @@ const Expenses = () => {
 
     useEffect(() => {
         getExpenses(HomeId);
-    }, []);
+    }, [state]);
 
     // Data Manipulation Function
     const sortExpenses = (data) => {

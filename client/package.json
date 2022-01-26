@@ -2,7 +2,7 @@
   "name": "under-one-roof",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5050",
+  "proxy": "https://under-one-roof-server.herokuapp.com/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.11.9",
@@ -22,6 +22,7 @@
     "react-validation": "^3.0.7",
     "react-vis": "^1.11.7",
     "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "sequelize": "^6.5.0",
     "web-vitals": "^1.1.0"
   },

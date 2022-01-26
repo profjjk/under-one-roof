@@ -1,17 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import API from '../utils/API';
 import './style.css';
 import AuthService from '../services/auth.service';
 import ChoreTableRow from '../components/ChoreTableRow';
 
+import { DELETE_CHORE, ADD_CHORE } from '../utils/redux/constants/actions';
+import { connect } from 'react-redux';
 
-const Chores = () => {
+const mapStateToProps = state => ({
+    chores: state.chores
+});
+
+const mapDispatchToProps = dispatch => ({
+    addChore: payload =>
+        dispatch({ type: ADD_CHORE, payload }),
+    deleteChore: (payload, choreId) =>
+        dispatch({ type: DELETE_CHORE, payload, choreId })
+});
+
+
+const Chores = props => {
     // Getting data from state and page
     const [chores, setChores] = useState([]);
     const [users, setUsers] = useState([]);
-    const choreNameRef = useRef();
-    const choreDescRef = useRef();
-    const choreFreqRef = useRef();
     const currentUser = AuthService.getCurrentUser();
 
     // Data Retrieval Functions
@@ -37,10 +48,8 @@ const Chores = () => {
 
     // Data Manipulation Functions
     const getAssignee = () => {
-        const assigneeMax = users.length;
-        const assigneeId = Math.floor(Math.random() * assigneeMax);
+        const assigneeId = Math.floor(Math.random() * users.length);
         const uN = users['id', `${assigneeId}`];
-        console.log(uN);
         var assignee = 'None';
         if (uN) {
             assignee = uN['userName'];
@@ -57,19 +66,18 @@ const Chores = () => {
             }).catch(err => console.error(err))
     }, [])
 
-    let assignee = getAssignee();
-
-    const addChore = (event) => {
-        event.preventDefault();
-        let newChore = {
-            choreName: choreNameRef.current.value,
-            choreDescription: choreDescRef.current.value,
-            choreFrequency: choreFreqRef.current.value,
-            assignee: assignee,
+    const submit = async e => {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
+        const newChore = {
+            choreName: formData.name,
+            choreDescription: formData.description,
+            choreFrequency: formData.frequency,
+            assignee: getAssignee(),
             HomeId: HomeId
         }
-        console.log(newChore);
-        API.addChore(newChore);
+        await API.addChore(newChore);
+        props.setChores(newChore);
         window.location.reload();
     };
 
@@ -86,35 +94,42 @@ const Chores = () => {
                     <table className="table w-100"
                            border="1"
                            style={{width: '80%', textAlign: 'center'}}>
+                        <thead>
                         <tr>
                             <th>Chore Name</th>
                             <th>Chore Description</th>
                             <th>Chore Frequency</th>
                             <th>Currently Assigned To</th>
                         </tr>
-                        {chores.map(chore => (
+                        </thead>
+
+                        <tbody>
+                        {chores ? chores.map(chore => (
                             <ChoreTableRow choreName={chore.choreName}
                                            choreDescription={chore.choreDescription}
                                            choreFrequency={chore.choreFrequency}
-                                           assignee={chore.assignee}/>
-                        ))}
+                                           assignee={chore.assignee}
+                                           key={chore.id}
+                            />
+                        )) : <></>}
+                        </tbody>
                     </table>
                 </div>
                 <div className="card col-lg-5 col-md-8">
                     <h2 className="medium mb-5 bold">Add a New Chore</h2>
                     <form className="form-group"
-                          onSubmit={addChore}>
+                          onSubmit={submit}>
                         <input className="form-control mb-4"
                                required
-                               ref={choreNameRef}
+                               name={'name'}
                                placeholder="Name of chore"/>
                         <input className="form-control mb-4"
                                required
-                               ref={choreDescRef}
+                               name={'description'}
                                placeholder="Brief description of chore"/>
                         <input className="form-control mb-4"
                                required
-                               ref={choreFreqRef}
+                               name={'frequency'}
                                placeholder="How often (in days) should the chore be done?"/>
                         <button className="btn btn-success mt-3"
                                 type="submit">Add Chore
@@ -127,4 +142,5 @@ const Chores = () => {
     )
 };
 
-export default Chores;
+// export default Chores;
+export default connect(mapStateToProps, mapDispatchToProps)(Chores);

@@ -1,10 +1,14 @@
-import { combineReducers, createStore } from 'redux';
-import { chore, event, expense, user } from './reducers';
+import { combineReducers, applyMiddleware, createStore } from 'redux';
+import { choreReducer, eventReducer, expenseReducer, userReducer } from './reducers';
+import thunk from 'redux-thunk';
 
 const reducer = combineReducers({
-    chore, event, expense, user
+    chores: choreReducer,
+    events: eventReducer,
+    expenses: expenseReducer,
+    users: userReducer
 })
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 export default store;

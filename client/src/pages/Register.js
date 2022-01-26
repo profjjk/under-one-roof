@@ -1,49 +1,45 @@
-import React, { useState, useRef } from 'react';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import CheckButton from 'react-validation/build/button';
-import { isEmail } from 'validator';
+import React, { useState, useRef } from "react";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+import { isEmail } from "validator";
 
-import AuthService from '../services/auth.service';
+import AuthService from "../services/auth.service";
 
 const required = (value) => {
     if (!value) {
         return (
-            <div className="alert alert-danger"
-                 role="alert">
+            <div className="alert alert-danger" role="alert">
                 This field is required!
             </div>
         );
     }
 };
 
-const validEmail = (value) => {
+const validateEmail = (value) => {
     if (!isEmail(value)) {
         return (
-            <div className="alert alert-danger"
-                 role="alert">
+            <div className="alert alert-danger" role="alert">
                 This is not a valid email.
             </div>
         );
     }
 };
 
-const vusername = (value) => {
+const validateUsername = (value) => {
     if (value.length < 3 || value.length > 40) {
         return (
-            <div className="alert alert-danger"
-                 role="alert">
+            <div className="alert alert-danger" role="alert">
                 The address or nickname must be between 3 and 40 characters.
             </div>
         );
     }
 };
 
-const vpassword = (value) => {
+const validatePassword = (value) => {
     if (value.length < 6 || value.length > 40) {
         return (
-            <div className="alert alert-danger"
-                 role="alert">
+            <div className="alert alert-danger" role="alert">
                 The password must be between 6 and 40 characters.
             </div>
         );
@@ -54,11 +50,11 @@ const Register = (props) => {
     const form = useRef();
     const checkBtn = useRef();
 
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [successful, setSuccessful] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -78,7 +74,7 @@ const Register = (props) => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        setMessage('');
+        setMessage("");
         setSuccessful(false);
 
         form.current.validateAll();
@@ -113,8 +109,7 @@ const Register = (props) => {
                     className="profile-img-card"
                 />
 
-                <Form onSubmit={handleRegister}
-                      ref={form}>
+                <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
                         <div>
                             <div className="form-group">
@@ -125,7 +120,7 @@ const Register = (props) => {
                                     name="username"
                                     value={username}
                                     onChange={onChangeUsername}
-                                    validations={[required, vusername]}
+                                    validations={[required, validateUsername]}
                                 />
                             </div>
 
@@ -137,7 +132,7 @@ const Register = (props) => {
                                     name="email"
                                     value={email}
                                     onChange={onChangeEmail}
-                                    validations={[required, validEmail]}
+                                    validations={[required, validateEmail]}
                                 />
                             </div>
 
@@ -149,7 +144,7 @@ const Register = (props) => {
                                     name="password"
                                     value={password}
                                     onChange={onChangePassword}
-                                    validations={[required, vpassword]}
+                                    validations={[required, validatePassword]}
                                 />
                             </div>
 
@@ -162,21 +157,19 @@ const Register = (props) => {
                     {message && (
                         <div className="form-group">
                             <div
-                                className={successful ? 'alert alert-success' : 'alert alert-danger'}
+                                className={ successful ? "alert alert-success" : "alert alert-danger" }
                                 role="alert"
                             >
                                 {message}
                             </div>
                             <div className="d-flex justify-content-center">
                                 <a href="/login">
-                                    <img src="/assets/img/Login/loginICON-72.png"
-                                         alt="Login button image"/>
+                                    <img src="/assets/img/Login/loginICON-72.png" alt="Login button image" />
                                 </a>
                             </div>
                         </div>
                     )}
-                    <CheckButton style={{display: 'none'}}
-                                 ref={checkBtn}/>
+                    <CheckButton style={{ display: "none" }} ref={checkBtn} />
                 </Form>
             </div>
         </div>

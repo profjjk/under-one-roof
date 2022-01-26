@@ -3,30 +3,20 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import { ExpenseProvider } from './utils/GlobalState';
 import { UserProvider } from './utils/LoginState';
-import { Provider } from 'react-redux';
-import store from './utils/redux/store';
 import AuthService from './services/auth.service';
 import Navbar from './components/Nav';
+import store from './utils/redux/store';
 import { Budget, Chores, Calendar, Expenses, Login, Register, Home, Landing, Profile } from './pages';
 
 function App() {
     const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
 
-    useEffect(() => {
-        const user = AuthService.getCurrentUser();
-
-        if (user) {
-            setCurrentUser(user);
-        }
-    }, [currentUser]);
-
-    console.log(store.getState())
+    console.log("State:", store.getState());
 
     return (
         <>
             <div className="App">
                 <Router>
-                    <Provider store={store}>
                         <Navbar/>
                         <UserProvider>
                             <Switch>
@@ -68,7 +58,6 @@ function App() {
                                 ) : <></>}
                             </Switch>
                         </UserProvider>
-                    </Provider>
                 </Router>
             </div>
         </>

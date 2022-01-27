@@ -5,9 +5,12 @@ import { SET_HOME } from '../utils/redux/constants/actions';
 
 
 const Login = () => {
-
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const setHome = home => {
+        dispatch({ type: SET_HOME, home })
+    }
 
     const login = async e => {
         try {
@@ -15,9 +18,9 @@ const Login = () => {
             const formData = Object.fromEntries(new FormData(e.target));
             const response = await AuthService.login(formData.home, formData.password);
             if (response) {
-                const home = { id: response.id, email: response.email, address: response.username }
-                dispatch({ type: SET_HOME, home })
-                history.push('/profile');
+                const home = { id: response.id, email: response.email, address: response.username };
+                setHome(home);
+                history.push('/home');
             }
         } catch (err) { console.error(err) }
     }

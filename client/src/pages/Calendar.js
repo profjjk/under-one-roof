@@ -4,7 +4,7 @@ import CalEvent from '../components/CalEvent';
 import EventForm from '../components/EventForm';
 import { useDispatch, useSelector } from 'react-redux';
 import API from '../utils/API';
-import { SET_EVENTS, SET_USER } from '../utils/redux/constants/actions';
+import { SET_EVENTS, SET_USERS } from '../utils/redux/constants/actions';
 
 function Calendar() {
     const dispatch = useDispatch();

@@ -113,7 +113,7 @@ const Register = (props) => {
                     {!successful && (
                         <div>
                             <div className="form-group">
-                                <label htmlFor="username">Address / Home Nickname</label>
+                                <label htmlFor="username">Home (street address)</label>
                                 <Input
                                     type="text"
                                     className="form-control"

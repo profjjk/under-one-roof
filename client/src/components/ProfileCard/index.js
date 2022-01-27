@@ -10,7 +10,7 @@ function ProfileCard(props) {
                 {props.users.map(user => {
                     return (
                         <Link className="col-lg-3 col-md-4 card imitate-btn"
-                              to="/landing"
+                              to="/profile"
                               key={user.id}>
                             <img className="img-fluid profile-img-card"
                                  src="/assets/img/ProfileCard/profileCardICON-96.png"/>

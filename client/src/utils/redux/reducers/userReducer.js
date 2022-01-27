@@ -1,10 +1,10 @@
-import { SET_USER } from '../constants/actions';
+import { SET_USERS, ADD_USER, DELETE_USER } from '../constants/actions';
 
-export default (state = {}, action) => {
+export default (state = { users: [] }, action) => {
     switch (action.type) {
-        case SET_USER:
+        case SET_USERS:
             return {
-                user: action.user
+                users: [...action.users]
             };
         default:
             return state;

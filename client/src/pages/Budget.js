@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
-import { useExpenseContext } from "../utils/GlobalState";
-import { GET_EXPENSES, ADD_EXPENSE } from "../utils/actions";
-import { RadialChart, XAxis, XYPlot, YAxis, VerticalBarSeries, LabelSeries } from "react-vis";
-import PaymentList from "../components/PaymentList";
-import AuthService from "../services/auth.service";
-import { useTable, useSortBy } from "react-table";
-import API from "../utils/API";
-import dayjs from "dayjs";
-import "./style.css";
+import React, { useEffect } from 'react';
+import { ADD_EXPENSE, GET_EXPENSES } from '../utils/actions';
+import { RadialChart, VerticalBarSeries, XAxis, XYPlot, YAxis } from 'react-vis';
+import PaymentList from '../components/PaymentList';
+import AuthService from '../services/auth.service';
+import { useSortBy, useTable } from 'react-table';
+import API from '../utils/API';
+import dayjs from 'dayjs';
+import './style.css';
+import { useDispatch } from 'react-redux';
+import { useExpenseContext } from '../utils/GlobalState';
 
 const Budget = () => {
+    const dispatch = useDispatch();
     // Getting data from state and page
     const currentUser = AuthService.getCurrentUser();
-    const [state, dispatch] = useExpenseContext();
+    const [state, dispatche] = useExpenseContext();
 
     // Data Retrieval Functions
     const getHomeId = () => {
@@ -108,7 +110,7 @@ const Budget = () => {
                 if (data.expenses[i].paid === true) {
                     rentPaid += parseInt(data.expenses[i].expenseAmount);
                 }
-            } else if (data.expenses[i].expenseType == "utilities" || data.expenses[i].expenseType == "Utilities") {
+            } else if (data.expenses[i].expenseType === "utilities" || data.expenses[i].expenseType === "Utilities") {
                 utilitiesOwed += parseInt(data.expenses[i].expenseAmount);
                 if (data.expenses[i].paid === true) {
                     utilitiesPaid += parseInt(data.expenses[i].expenseAmount);
@@ -141,9 +143,7 @@ const Budget = () => {
 
     const pieData = pieDataFormat(state);
     const barData = barDataFormat(state);
-    const barLabels = barLabelData(barData);
-
-    let labelData = barLabels;
+    const labelData = barLabelData(barData);
 
     const totalOwedFormat = (data) => {
         let owed = 0;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const baseUrl = 'https://under-one-roof-server.herokuapp.com';
-const baseUrl = 'http://localhost:5050';
+const baseUrl = 'https://under-one-roof-server.herokuapp.com';
+// const baseUrl = 'http://localhost:5050';
 
 export default {
   // Gets all expenses

@@ -5,13 +5,17 @@ import { ExpenseProvider } from './utils/GlobalState';
 import { UserProvider } from './utils/LoginState';
 import AuthService from './services/auth.service';
 import Navbar from './components/Nav';
-import store from './utils/redux/store';
+import { useSelector, useDispatch } from 'react-redux';
 import { Budget, Chores, Calendar, Expenses, Login, Register, Home, Landing, Profile } from './pages';
 
 function App() {
     const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
+    const user = useSelector(state => state.user);
+    const { events } = useSelector(state => state.events);
+    const { chores } = useSelector(state => state.chores);
+    const { expenses } = useSelector(state => state.expenses);
 
-    console.log("State:", store.getState());
+    console.log(user, events, chores, expenses)
 
     return (
         <>

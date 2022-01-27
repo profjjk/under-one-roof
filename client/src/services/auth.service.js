@@ -20,7 +20,6 @@ const login = (username, password) => {
             if (response.data.accessToken) {
                 localStorage.setItem('under_one_roof', JSON.stringify(response.data));
             }
-
             return response.data;
         });
 };

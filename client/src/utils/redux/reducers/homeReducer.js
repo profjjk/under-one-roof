@@ -1,10 +1,10 @@
-import { SET_USER } from '../constants/actions';
+import { SET_HOME } from '../constants/actions';
 
 export default (state = {}, action) => {
     switch (action.type) {
-        case SET_USER:
+        case SET_HOME:
             return {
-                user: action.user
+                home: action.home
             };
         default:
             return state;

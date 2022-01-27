@@ -10,7 +10,7 @@ const choreReducer = (state = {}, action) => {
         case ADD_CHORE:
             return {
                 ...state,
-                chores: (state.chores || []).concat([action.payload])
+                chores: (state.chores || []).concat([action.newChore])
             };
         case DELETE_CHORE:
             const choreId = action.choreId;

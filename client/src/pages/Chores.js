@@ -7,21 +7,13 @@ import ChoreTableRow from '../components/ChoreTableRow';
 import { DELETE_CHORE, ADD_CHORE } from '../utils/redux/constants/actions';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
-    chores: state.chores
-});
-
-const mapDispatchToProps = dispatch => ({
-    addChore: payload =>
-        dispatch({ type: ADD_CHORE, payload }),
-    deleteChore: (payload, choreId) =>
-        dispatch({ type: DELETE_CHORE, payload, choreId })
-});
+const Chores = ({ chores, addChore, deleteChore }) => {
+    console.log("Chores:", chores);
 
 
-const Chores = props => {
+
     // Getting data from state and page
-    const [chores, setChores] = useState([]);
+    const [Oldchores, setOldChores] = useState([]);
     const [users, setUsers] = useState([]);
     const currentUser = AuthService.getCurrentUser();
 
@@ -38,7 +30,7 @@ const Chores = props => {
 
         API.getChores(id)
             .then(results => {
-                setChores(results.data);
+                setOldChores(results.data);
             }).catch(err => console.error(err))
     };
 
@@ -77,7 +69,7 @@ const Chores = props => {
             HomeId: HomeId
         }
         await API.addChore(newChore);
-        props.setChores(newChore);
+        setOldChores(newChore);
         window.location.reload();
     };
 
@@ -104,7 +96,7 @@ const Chores = props => {
                         </thead>
 
                         <tbody>
-                        {chores ? chores.map(chore => (
+                        {Oldchores ? Oldchores.map(chore => (
                             <ChoreTableRow choreName={chore.choreName}
                                            choreDescription={chore.choreDescription}
                                            choreFrequency={chore.choreFrequency}
@@ -141,6 +133,17 @@ const Chores = props => {
 
     )
 };
+
+const mapStateToProps = state => ({
+    chores: state.chores,
+});
+
+const mapDispatchToProps = dispatch => ({
+    addChore: newChore =>
+        dispatch({ type: ADD_CHORE, newChore }),
+    deleteChore:  choreId =>
+        dispatch({ type: DELETE_CHORE, choreId })
+});
 
 // export default Chores;
 export default connect(mapStateToProps, mapDispatchToProps)(Chores);

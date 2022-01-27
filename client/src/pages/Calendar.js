@@ -2,8 +2,26 @@ import React, { useState, useEffect } from 'react';
 import MiniCal from '../components/MiniCal';
 import CalEvent from '../components/CalEvent';
 import EventForm from '../components/EventForm';
+import { useDispatch, useSelector } from 'react-redux';
+import API from '../utils/API';
+import { SET_EVENTS, SET_USER } from '../utils/redux/constants/actions';
 
 function Calendar() {
+    const dispatch = useDispatch();
+    const { events } = useSelector(state => state.events);
+    const user = useSelector(state => state.user);
+
+    console.log(user)
+
+    // useEffect(() => {
+    //     API.getEvents(HomeId)
+    //         .then(events => {
+    //             dispatch({ type: SET_EVENTS, events: events.data })
+    //         }).catch(err => console.error(err));
+    // }, []);
+
+    // console.log("Events:", events)
+
     // Set up Stately variables
     const [displayForm, setDisplayForm] = useState(false);
 

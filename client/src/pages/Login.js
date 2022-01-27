@@ -1,41 +1,26 @@
-import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import Form from 'react-validation/build/form';
-import CheckButton from 'react-validation/build/button';
+import { useDispatch } from 'react-redux';
 import AuthService from '../services/auth.service';
+import { SET_HOME } from '../utils/redux/constants/actions';
 
 
 const Login = () => {
-    const checkBtn = useRef();
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
-    const history = useHistory()
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        const formData = Object.fromEntries(new FormData(e.target));
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-        setMessage('');
-        setLoading(true);
-
-
-        AuthService.login(formData.username, formData.password).then(
-            () => {
+    const login = async e => {
+        try {
+            e.preventDefault();
+            const formData = Object.fromEntries(new FormData(e.target));
+            const response = await AuthService.login(formData.home, formData.password);
+            if (response) {
+                const home = { id: response.id, email: response.email, address: response.username }
+                dispatch({ type: SET_HOME, home })
                 history.push('/profile');
-            },
-            (error) => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-
-                setLoading(false);
-                setMessage(resMessage);
             }
-        );
-    };
+        } catch (err) { console.error(err) }
+    }
 
     return (
         <div className="col-md-12">
@@ -46,13 +31,13 @@ const Login = () => {
                     className="profile-img-card"
                 />
 
-                <Form onSubmit={handleLogin}>
+                <form onSubmit={login}>
                     <div className="form-group">
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="username">Home (street address)</label>
                         <input
                             type={'text'}
                             className={'form-control'}
-                            name={'username'}
+                            name={'home'}
                             defaultValue={'12 Harbor Ave'}
                         />
                     </div>
@@ -68,26 +53,12 @@ const Login = () => {
                     </div>
 
                     <div className="form-group">
-                        <button className="btn btn-primary btn-block"
-                                disabled={loading}>
-                            {loading && (
-                                <span className="spinner-border spinner-border-sm"></span>
-                            )}
+                        <button className="btn btn-primary btn-block">
                             <span>Login</span>
                         </button>
                     </div>
 
-                    {message && (
-                        <div className="form-group">
-                            <div className="alert alert-danger"
-                                 role="alert">
-                                {message}
-                            </div>
-                        </div>
-                    )}
-                    <CheckButton style={{display: 'none'}}
-                                 ref={checkBtn}/>
-                </Form>
+                </form>
             </div>
         </div>
     );

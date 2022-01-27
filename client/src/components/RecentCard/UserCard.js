@@ -23,7 +23,7 @@ function UserCard(props) {
       })}
       
       <div>
-        <Link to="/Profile"><span><button className="btn btn-success">Go to Home</button></span></Link>
+        <Link to="/Home"><span><button className="btn btn-success">Go to Home</button></span></Link>
       </div>
       
     </div>

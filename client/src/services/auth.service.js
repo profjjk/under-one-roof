@@ -18,19 +18,18 @@ const login = (username, password) => {
         })
         .then((response) => {
             if (response.data.accessToken) {
-                localStorage.setItem('user', JSON.stringify(response.data));
+                localStorage.setItem('under_one_roof', JSON.stringify(response.data));
             }
-
             return response.data;
         });
 };
 
 const logout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('under_one_roof');
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('user'));
+    return JSON.parse(localStorage.getItem('under_one_roof'));
 };
 
 export default {

@@ -1,10 +1,13 @@
 import React from 'react';
 import API from '../../utils/API';
 import AuthService from '../../services/auth.service';
+import { useDispatch } from 'react-redux';
+import { ADD_EVENT } from '../../utils/redux/constants/actions';
 
 
 function EventForm(props) {
     const currentUser = AuthService.getCurrentUser();
+    const dispatch = useDispatch();
 
     let HomeId = currentUser.id;
 
@@ -16,9 +19,9 @@ function EventForm(props) {
             eventName: formData.title,
             HomeId: HomeId
         }
+        dispatch({ type: ADD_EVENT, newEvent })
         await API.saveEvent(newEvent).catch(err => console.error(err))
         props.hideForm();
-        document.location.reload()
     }
 
     return (

@@ -14,14 +14,14 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg navbar-dark blueBG">
             <div className="container-fluid">
                 {currentUser ? (
-                    <Link to={'/landing'}
+                    <Link to={'/'}
                           className="navbar-brand logo">
-                        <img src="/assets/img-sans-background/v1-heart/UORHeartOnlyLOGO72.png" alt="Under One Roof Logo and Home Button"/>
+                        <img src="/assets/img-sans-background/v1-heart/UORHeartOnlyLOGO72.png" alt="Under One Roof Logo and Landing Button"/>
                         UnderOneRoof
                     </Link>) : (
                     <Link to={'/'}
                           className="navbar-brand logo">
-                        <img src="/assets/img-sans-background/v1-heart/UORHeartOnlyLOGO72.png" alt="Under One Roof Logo and Home Button"/>
+                        <img src="/assets/img-sans-background/v1-heart/UORHeartOnlyLOGO72.png" alt="Under One Roof Logo and Landing Button"/>
                         UnderOneRoof
                     </Link>
                 )}
@@ -85,7 +85,7 @@ function Navbar() {
                             <li className="nav-item active">
                                 <Link to={'/profile'}
                                       className="nav-link">
-                                    <img src="/assets/img/Profile/profileICON-48.png" alt="Profile Button"/>
+                                    <img src="/assets/img/Profile/profileICON-48.png" alt="Home Button"/>
                                     {currentUser.username}
                                 </Link>
                             </li>

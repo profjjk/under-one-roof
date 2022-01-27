@@ -1,18 +1,18 @@
 import React from "react";
 import PaymentListItem from "../PaymentListItem";
 
-export default function PaymentList(props) {
+export default function PaymentList(props, { expenses }) {
     const roomies = [];
 
     const cleanData = (data) => {
         const roomObj = {};
 
-        for( const i=0; i< data.expenses.length; i++) {
-            let key = data.expenses[i].paidBy;
+        for( const i=0; i< expenses.length; i++) {
+            let key = expenses[i].paidBy;
             let amount =0;
-            for (const j=0; j< data.expenses.length; j++) {
-                if (data.expenses[j].paid === true && data.expenses[j].paidBy === key) {
-                    amount += parseInt(data.expenses[j].expenseAmount);
+            for (const j=0; j< expenses.length; j++) {
+                if (expenses[j].paid === true && expenses[j].paidBy === key) {
+                    amount += parseInt(expenses[j].expenseAmount);
                 }
             }
 
@@ -23,8 +23,8 @@ export default function PaymentList(props) {
         }
     }
 
-    if (props.data.length) {
-        cleanData(props.data);
+    if (expenses) {
+        cleanData(expenses);
     }
 
     return (

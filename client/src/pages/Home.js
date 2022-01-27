@@ -1,41 +1,47 @@
-import React, { useState, useEffect } from "react";
-import UserService from "../services/user.service";
-
-const style = {
-  hero: {
-    maxHeight: '350px',
-    objectFit: 'contain'
-  }
-}
+import React, { useEffect, useState } from 'react';
+import ProfileCard from '../components/ProfileCard';
+import ProfileForm from '../components/ProfileForm';
+import Header from '../components/Header';
+import AuthService from '../services/auth.service';
+import API from '../utils/API';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_USERS, SET_EVENTS } from '../utils/redux/constants/actions';
 
 const Home = () => {
-  const [content, setContent] = useState("");
+    const { id: HomeId } = AuthService.getCurrentUser();
+    const [displayForm, setDisplayForm] = useState(false);
+    const [users, setUsers] = useState([]);
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    UserService.getPublicContent().then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
+    useEffect(() => {
+        API.getUsers(HomeId)
+            .then(users => {
+                setUsers(users.data)
+                dispatch({ type: SET_USERS, users: users.data })
+            }).catch(err => console.error(err));
+    }, []);
 
-        setContent(_content);
-      }
-    );
-  }, []);
+    const hideForm = () => {
+        setDisplayForm(false)
+    }
+    const showForm = () => {
+        setDisplayForm(true)
+    }
 
-  return (
-    <div className="container">
-      <header className="row d-flex">
-        <img className="img-fluid col-12 mx-auto my-5" src="/assets/img/Brand/UnderOneRoof.png" style={style.hero}></img>
-        <h2 className="col-12 large text-center purple">Welcome to</h2>
-        <h1 className="col-12 xlarge text-center blue logo display-3"><span className="blue">Under</span><span className="yellow">One</span><span className="red">Roof</span></h1>
-      </header>
-    </div>
-  );
+    if (displayForm) {
+        return (
+            <main>
+                <ProfileForm hideForm={hideForm} />
+            </main>
+        )
+    } else {
+        return (
+            <main>
+                <Header />
+                <ProfileCard showForm={showForm} users={users} />
+            </main>
+        )
+    }
 };
 
 export default Home;

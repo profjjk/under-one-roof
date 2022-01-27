@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-const baseUrl = 'https://under-one-roof-server.herokuapp.com'
+// const baseUrl = 'https://under-one-roof-server.herokuapp.com';
+const baseUrl = 'http://localhost:5050';
 
 export default {
   // Gets all expenses
@@ -13,7 +14,7 @@ export default {
   },
   // Saves a new expense to the database
   addExpense: function(expenseData) {
-    return axios.post(`${baseUrl}/api/expenses`, expenseData);
+    return axios.post(`${baseUrl}/api/expenses/`, expenseData);
   },
   editExpense: function(id, expenseData) {
     return axios.put(`${baseUrl}/api/expenses/` + id, expenseData);
@@ -29,7 +30,7 @@ export default {
   },
   // Saves a new chore
   addChore: function(newChore) {
-    return axios.post(`${baseUrl}/api/chores`, newChore);
+    return axios.post(`${baseUrl}/api/chores/`, newChore);
   },
   // Update a chore with the given id
   updateChore: function(id) {
@@ -41,7 +42,7 @@ export default {
     return axios.get(`${baseUrl}/api/events/` + id);
   },
   saveEvent: data => {
-    return axios.post(`${baseUrl}/api/events`, data);
+    return axios.post(`${baseUrl}/api/events/`, data);
   },
   deleteEvent: id => {
     return axios.delete(`${baseUrl}/api/events/` + id);
@@ -52,18 +53,17 @@ export default {
     return axios.get(`${baseUrl}/api/users/` + id);
   },
   saveUser: data => {
-    return axios.post(`${baseUrl}/api/users`, data);
+    return axios.post(`${baseUrl}/api/users/`, data);
   },
   deleteUser: id => {
     return axios.delete(`${baseUrl}/api/users/` + id);
   },
 
   // LOGIN
-  getUser: id => {
+  getHome: id => {
     return axios.get(`${baseUrl}api/homes/` + id);
   },
-  addUser: data => {
+  addHome: data => {
     return axios.get(`${baseUrl}/api/homes/` + data.HomeId);
   }
-
 };

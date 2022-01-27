@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './index.css';
+import './style.css';
 
 function MiniCal() {
   const [date, setDate] = useState(new Date())

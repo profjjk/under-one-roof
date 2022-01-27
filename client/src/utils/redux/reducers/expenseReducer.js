@@ -1,8 +1,8 @@
-import { GET_EXPENSES, ADD_EXPENSE, DELETE_EXPENSE } from '../constants/actions';
+import { SET_EXPENSES, ADD_EXPENSE, DELETE_EXPENSE } from '../constants/actions';
 
-export default (state = {}, action) => {
+export default (state = { expenses: [] }, action) => {
     switch (action.type) {
-        case GET_EXPENSES:
+        case SET_EXPENSES:
             return {
                 ...state,
                 expenses: [...action.expenses]
@@ -10,7 +10,7 @@ export default (state = {}, action) => {
         case ADD_EXPENSE:
             return {
                 ...state,
-                expenses: (state.expenses || []).concat([action.payload.expense])
+                expenses: (state.expenses || []).concat([action.expense])
             };
         case DELETE_EXPENSE:
             const expenseId = action.expenseId;

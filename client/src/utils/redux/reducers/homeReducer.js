@@ -4,6 +4,7 @@ export default (state = {}, action) => {
     switch (action.type) {
         case SET_HOME:
             return {
+                ...state,
                 home: action.home
             };
         default:

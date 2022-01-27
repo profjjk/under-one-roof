@@ -6,7 +6,7 @@ const reducer = combineReducers({
     chores: choreReducer,
     events: eventReducer,
     expenses: expenseReducer,
-    user: userReducer,
+    users: userReducer,
     home: homeReducer
 })
 

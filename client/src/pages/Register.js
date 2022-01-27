@@ -101,7 +101,7 @@ const Register = (props) => {
     };
 
     return (
-        <div className="col-md-12">
+        <main className="col-md-12">
             <div className="card card-container mx-auto my-5">
                 <img
                     src="/assets/img/addUser/addUserICON-96.png"
@@ -172,7 +172,7 @@ const Register = (props) => {
                     <CheckButton style={{ display: "none" }} ref={checkBtn} />
                 </Form>
             </div>
-        </div>
+        </main>
     );
 };
 

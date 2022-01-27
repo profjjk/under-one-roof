@@ -1,23 +1,47 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Budget, Chores, Calendar, Expenses, Login, Register, Home, Landing, Profile } from './pages';
 import { useSelector } from 'react-redux';
-import store from './utils/redux/store';
 import Navbar from './components/Nav';
 import './App.css';
 
 import { ExpenseProvider } from './utils/GlobalState';
-import { UserProvider } from './utils/LoginState';
+import { useEffect } from 'react';
+import { SET_HOME } from './utils/redux/constants/actions';
+import AuthService from './services/auth.service';
 
 const App = () => {
+    const dispatch = useDispatch();
+    // const { id: HomeId } = AuthService.getCurrentUser();
     const home = useSelector(state => state.home);
-    console.log("STORE:", store.getState());
+    const {users} = useSelector(state => state.users);
+    const {events} = useSelector(state => state.events);
+    const {chores} = useSelector(state => state.chores);
+    const {expenses} = useSelector(state => state.expenses);
+
+    useEffect(() => {
+        // if (home && users && events && chores && expenses) {
+            console.log("Home:", home)
+            console.log("Users:", users)
+            console.log("Events:", events)
+            console.log("Chores:", chores)
+            console.log("Expenses:", expenses)
+        // }
+    }, [home, users, events, chores, expenses])
+
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
+        if (user) {
+            const home = { id: user.id, email: user.email, address: user.username };
+            dispatch({ type: SET_HOME, home });
+        }
+    }, []);
 
     return (
         <>
             <div className="App">
                 <Router>
                         <Navbar/>
-                        {/*<UserProvider>*/}
                             <Switch>
                                 {/* Public Routes */}
                                 <Route exact
@@ -56,7 +80,6 @@ const App = () => {
                                     </>
                                 ) : <></>}
                             </Switch>
-                        {/*</UserProvider>*/}
                 </Router>
             </div>
         </>

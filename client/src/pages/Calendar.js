@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import MiniCal from '../components/MiniCal';
 import CalEvent from '../components/CalEvent';
 import EventForm from '../components/EventForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { SET_EVENTS } from '../utils/redux/constants/actions';
+import AuthService from '../services/auth.service';
 import API from '../utils/API';
-import { SET_EVENTS, SET_USERS } from '../utils/redux/constants/actions';
 
 function Calendar() {
+    const [displayForm, setDisplayForm] = useState(false);
     const dispatch = useDispatch();
     const { events } = useSelector(state => state.events);
-    const user = useSelector(state => state.user);
+    const { id: HomeId } = AuthService.getCurrentUser();
 
-    console.log(user)
-
-    // useEffect(() => {
-    //     API.getEvents(HomeId)
-    //         .then(events => {
-    //             dispatch({ type: SET_EVENTS, events: events.data })
-    //         }).catch(err => console.error(err));
-    // }, []);
-
-    // console.log("Events:", events)
-
-    // Set up Stately variables
-    const [displayForm, setDisplayForm] = useState(false);
-
+    useEffect(() => {
+        API.getEvents(HomeId)
+            .then(events => {
+                dispatch({ type: SET_EVENTS, events: events.data })
+            }).catch(err => console.error(err));
+    }, []);
 
     // Manage the modals
     const hideForm = () => {
@@ -35,7 +29,7 @@ function Calendar() {
     }
 
     return (
-        <div className="container">
+        <main className="container-fluid">
             <header className="row justify-content-around p-3">
                 <div className="col-lg-5 col-md-8 d-flex align-items-center justify-content-center m-3">
                     <div className="row justify-content-center">
@@ -48,15 +42,15 @@ function Calendar() {
                     <MiniCal/>
                 </div>
             </header>
-            <main className="row">
+            <section className="event-row row">
                 <div className="col-12 p-3">
                     <button className="btn btn-primary m-0 mb-3"
                             onClick={showForm}>Add Event
                     </button>
                     {displayForm ? <EventForm hideForm={hideForm}/> : <CalEvent/>}
                 </div>
-            </main>
-        </div>
+            </section>
+        </main>
     )
 }
 

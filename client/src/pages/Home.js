@@ -8,15 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SET_USERS, SET_EVENTS } from '../utils/redux/constants/actions';
 
 const Home = () => {
-    const currentUser = AuthService.getCurrentUser();
+    const { id: HomeId } = AuthService.getCurrentUser();
     const [displayForm, setDisplayForm] = useState(false);
     const [users, setUsers] = useState([]);
     const dispatch = useDispatch();
-
-    const home = useSelector(state => state.home);
-    console.log("HOME:", home);
-
-    let HomeId = currentUser.id;
 
     useEffect(() => {
         API.getUsers(HomeId)
@@ -35,16 +30,16 @@ const Home = () => {
 
     if (displayForm) {
         return (
-            <>
+            <main>
                 <ProfileForm hideForm={hideForm} />
-            </>
+            </main>
         )
     } else {
         return (
-            <>
+            <main>
                 <Header />
                 <ProfileCard showForm={showForm} users={users} />
-            </>
+            </main>
         )
     }
 };

@@ -1,8 +1,8 @@
-import { GET_CHORES, ADD_CHORE, DELETE_CHORE } from '../constants/actions';
+import { SET_CHORES, ADD_CHORE, DELETE_CHORE } from '../constants/actions';
 
 const choreReducer = (state = {}, action) => {
     switch (action.type) {
-        case GET_CHORES:
+        case SET_CHORES:
             return {
                 ...state,
                 chores: [...action.chores]

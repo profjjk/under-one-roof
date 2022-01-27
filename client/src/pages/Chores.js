@@ -1,80 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import API from '../utils/API';
-import './style.css';
 import AuthService from '../services/auth.service';
 import ChoreTableRow from '../components/ChoreTableRow';
 
-import { DELETE_CHORE, ADD_CHORE } from '../utils/redux/constants/actions';
+import { SET_CHORES, ADD_CHORE, DELETE_CHORE, SET_USERS } from '../utils/redux/constants/actions';
 import { connect } from 'react-redux';
 
-const Chores = ({ chores, addChore, deleteChore }) => {
-    console.log("Chores:", chores);
-
-
-
-    // Getting data from state and page
-    const [Oldchores, setOldChores] = useState([]);
-    const [users, setUsers] = useState([]);
-    const currentUser = AuthService.getCurrentUser();
-
-    // Data Retrieval Functions
-    const getHomeId = () => {
-        const HomeId = currentUser.id;
-        return HomeId;
-    }
-
-    let HomeId = getHomeId();
-
-    const getChores = (data) => {
-        let id = data;
-
-        API.getChores(id)
-            .then(results => {
-                setOldChores(results.data);
-            }).catch(err => console.error(err))
-    };
+const Chores = ({ users, setUsers, chores, setChores, addChore, deleteChore }) => {
+    const { id: HomeId } = AuthService.getCurrentUser();
 
     useEffect(() => {
-        getChores(HomeId);
+        API.getChores(HomeId)
+            .then(results => {
+                setChores(results.data);
+            }).catch(err => console.error(err))
+        API.getUsers(HomeId)
+            .then(results => {
+                setUsers(results.data);
+            }).catch(err => console.error(err))
     }, []);
 
-    // Data Manipulation Functions
     const getAssignee = () => {
         const assigneeId = Math.floor(Math.random() * users.length);
         const uN = users['id', `${assigneeId}`];
-        var assignee = 'None';
+        let assignee = 'None';
         if (uN) {
             assignee = uN['userName'];
         }
         return assignee;
     }
 
-    useEffect(() => {
-        API.getUsers(HomeId)
-            .then(users => {
-                // console.log(expenses)
-                setUsers(users.data)
-
-            }).catch(err => console.error(err))
-    }, [])
-
     const submit = async e => {
-        e.preventDefault();
-        const formData = Object.fromEntries(new FormData(e.target));
-        const newChore = {
-            choreName: formData.name,
-            choreDescription: formData.description,
-            choreFrequency: formData.frequency,
-            assignee: getAssignee(),
-            HomeId: HomeId
-        }
-        await API.addChore(newChore);
-        setOldChores(newChore);
-        window.location.reload();
+        try {
+            e.preventDefault();
+            const formData = Object.fromEntries(new FormData(e.target));
+            const newChore = {
+                choreName: formData.name,
+                choreDescription: formData.description,
+                choreFrequency: formData.frequency,
+                assignee: getAssignee(),
+                HomeId: HomeId
+            }
+            await API.addChore(newChore);
+            addChore(newChore);
+        } catch (err) { console.error(err) }
     };
 
     return (
-        <div className="container-fluid">
+        <main className="container-fluid">
             <div className="row-fluid">
                 <div className="col md-12">
                     <h1 className="logo large text-center mt-5 red">Household Chores</h1>
@@ -96,7 +69,7 @@ const Chores = ({ chores, addChore, deleteChore }) => {
                         </thead>
 
                         <tbody>
-                        {Oldchores ? Oldchores.map(chore => (
+                        {chores ? chores.map(chore => (
                             <ChoreTableRow choreName={chore.choreName}
                                            choreDescription={chore.choreDescription}
                                            choreFrequency={chore.choreFrequency}
@@ -129,16 +102,21 @@ const Chores = ({ chores, addChore, deleteChore }) => {
                     </form>
                 </div>
             </div>
-        </div>
+        </main>
 
     )
 };
 
 const mapStateToProps = state => ({
-    chores: state.chores,
+    chores: state.chores.chores,
+    users: state.users.users
 });
 
 const mapDispatchToProps = dispatch => ({
+    setUsers: users =>
+        dispatch({ type: SET_USERS, users }),
+    setChores: chores =>
+        dispatch({ type: SET_CHORES, chores }),
     addChore: newChore =>
         dispatch({ type: ADD_CHORE, newChore }),
     deleteChore:  choreId =>

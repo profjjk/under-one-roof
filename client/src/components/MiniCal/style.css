@@ -1,16 +1,13 @@
 .calendar {
   box-sizing: border-box;
   font-size: 1rem;
-  max-width: 400px;
+  width: 200px;
 }
 
 .calendar .header {
-  background-color: var(--light-blue);
   text-align: center;
   min-height: 2rem;
   line-height: 2rem;
-  color: var(--black);
-  font-family: var(--font-book);
   font-weight: 700;
   display: flex;
 }
@@ -21,10 +18,6 @@
   max-width: 1000px;
   margin: 0 auto;
   align-items: center;
-}
-
-.calendar .body {
-  border: 1px solid var(--light-blue);
 }
 
 .calendar .header .previous {
@@ -46,7 +39,6 @@
   line-height: 44px;
   text-align: center;
   text-transform: uppercase;
-  color: var(--black);
   font-weight: 400;
 }
 .calendar .week div {
@@ -70,23 +62,13 @@
   width: 54px;
   height: 44px;
   position: relative;
-  color: var(--black);
   z-index: 100;
   line-height: 44px;
 }
 
-.calendar .day div.before {
-  color: var(--grey);
-}
 
 .calendar .day div.selected {
-  background-color: var(--red);
-  color: var(--white);
   font-weight: bold;
-}
-
-.calendar .day div.today {
-  background-color: var(--grey);
 }
 
 .react-calendar {
